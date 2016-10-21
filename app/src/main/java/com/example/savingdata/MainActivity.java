@@ -1,12 +1,15 @@
 package com.example.savingdata;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
@@ -14,6 +17,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -92,7 +97,32 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void selectDb(View view) {
+        FeedReaderDbHelper mDbHelper = new FeedReaderDbHelper(this);
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        Cursor c = db.query(FeedReaderContract.FeedEntry.TABLE_NAME,
+                new String[]{
+                        FeedReaderContract.FeedEntry.COLUMN_NAME_ENTRY_ID,
+                        FeedReaderContract.FeedEntry.COLUMN_NAME_TITLE,
+                        FeedReaderContract.FeedEntry.COLUMN_NAME_CONTENT
+                },
+                "",
+                new String[0],
+                "",
+                "",
+                "");
 
+
+        List<String> records = new ArrayList<>();
+        while(c.moveToNext()) {
+            String record = c.getString(0) + "," +  c.getString(1)  + "," +  c.getString(2) + "\r\n";
+            records.add(record);
+        }
+
+        ListView listView = (ListView) findViewById(R.id.list_view);
+        listView.setAdapter(new ArrayAdapter<String>(
+                this,
+                android.R.layout.simple_list_item_1,
+                records));
     }
 
     public void deleteDb(View view) {
