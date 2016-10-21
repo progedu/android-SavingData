@@ -10,7 +10,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.savingdata.MainActivity">
 
-
     <TextView
         android:id="@+id/hello_text"
         android:layout_width="wrap_content"
@@ -40,4 +39,40 @@
         android:text="Delete"
         android:onClick="delete" />
 
+    <ListView
+        android:id="@+id/list_view"
+        android:layout_width="fill_parent"
+        android:layout_height="300dp"
+        android:layout_below="@+id/save_button" />
+    <Button
+        android:id="@+id/insert_db_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/list_view"
+        android:text="Insert"
+        android:onClick="insertDb" />
+    <Button
+        android:id="@+id/select_db_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/list_view"
+        android:layout_toEndOf="@+id/insert_db_button"
+        android:text="Select"
+        android:onClick="selectDb" />
+    <Button
+        android:id="@+id/delete_db_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/list_view"
+        android:layout_toEndOf="@+id/select_db_button"
+        android:text="Delete"
+        android:onClick="deleteDb" />
+    <Button
+        android:id="@+id/update_db_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/list_view"
+        android:layout_toEndOf="@+id/delete_db_button"
+        android:text="Update"
+        android:onClick="updateDb" />
 </RelativeLayout>
