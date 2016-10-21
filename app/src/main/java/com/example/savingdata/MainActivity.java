@@ -126,7 +126,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void deleteDb(View view) {
+        FeedReaderDbHelper mDbHelper = new FeedReaderDbHelper(this);
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
+        db.delete(FeedReaderContract.FeedEntry.TABLE_NAME,
+                "",
+                new String[0]);
     }
 
     public void updateDb(View view) {
