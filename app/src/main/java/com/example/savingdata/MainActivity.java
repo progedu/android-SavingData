@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void delete(View view) {
-
+        File file = getStorageDocumentsDir(filename);
+        Log.d("MainActivity", "getFreeSpace: " + file.getFreeSpace());
     }
 }
