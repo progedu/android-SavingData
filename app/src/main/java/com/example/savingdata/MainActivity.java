@@ -1,13 +1,14 @@
 package com.example.savingdata;
 
-import android.content.Context;
-import android.content.SharedPreferences;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
@@ -25,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     public void save(View view) {
         FileOutputStream outputStream;
         try {
-            outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
+            outputStream = new FileOutputStream(getStorageDocumentsDir(filename));
             String string = "Hello Android! at " + System.currentTimeMillis();
             outputStream.write(string.getBytes());
             outputStream.close();
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     public void restore(View view) {
         FileInputStream inputStream;
         try {
-            inputStream = openFileInput(filename);
+            inputStream = new FileInputStream(getStorageDocumentsDir(filename));
             BufferedReader br =
                     new BufferedReader(new InputStreamReader(inputStream));
             StringBuilder sb = new StringBuilder();
@@ -53,6 +54,12 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public File getStorageDocumentsDir(String filename) {
+        File file = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_DOCUMENTS), filename);
+        return file;
     }
 
     public void delete(View view) {
