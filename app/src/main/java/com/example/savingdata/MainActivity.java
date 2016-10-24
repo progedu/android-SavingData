@@ -75,6 +75,8 @@ public class MainActivity extends AppCompatActivity {
         file.delete();
     }
 
+    private long lastId;
+
     public void insertDb(View view) {
         FeedReaderDbHelper mDbHelper = new FeedReaderDbHelper(this);
         // Gets the data repository in write mode
@@ -82,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
-        long lastId = System.currentTimeMillis() / 1000;
+        lastId = System.currentTimeMillis() / 1000;
         values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_ENTRY_ID, lastId);
         values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_TITLE, "タイトル");
         values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_CONTENT, "内容");
@@ -135,6 +137,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void updateDb(View view) {
+        FeedReaderDbHelper mDbHelper = new FeedReaderDbHelper(this);
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_TITLE, "更新済みタイトル");
+        values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_CONTENT, "更新済み内容");
+
+        Log.d("lastId", Long.toString(lastId));
+
+        db.update(
+                FeedReaderContract.FeedEntry.TABLE_NAME,
+                values,
+                FeedReaderContract.FeedEntry.COLUMN_NAME_ENTRY_ID + " = ?",
+                new String[]{Long.toString(lastId)});
 
     }
 }
