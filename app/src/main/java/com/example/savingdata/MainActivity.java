@@ -1,6 +1,7 @@
 package com.example.savingdata;
 
 import android.content.ContentValues;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
@@ -30,7 +31,15 @@ public class MainActivity extends AppCompatActivity {
 
     private final String filename = "myfile";
 
+    private final static String COUNTER = "com.example.savingdata.counter";
+    private final static String SAVE_COUNT = "saveCount";
+
     public void save(View view) {
+
+        SharedPreferences sharedPref = this.getSharedPreferences(COUNTER, this.MODE_PRIVATE);
+        int count = sharedPref.getInt(SAVE_COUNT, 0);
+        sharedPref.edit().putInt(SAVE_COUNT, count + 1).commit();
+
         FileOutputStream outputStream;
         try {
             outputStream = new FileOutputStream(getStorageDocumentsDir(filename));
@@ -54,6 +63,9 @@ public class MainActivity extends AppCompatActivity {
             while ((line = br.readLine()) != null) {
                 sb.append(line);
             }
+
+            SharedPreferences sharedPref = this.getSharedPreferences(COUNTER, this.MODE_PRIVATE);
+            sb.append("\nsaveCount: " + sharedPref.getInt(SAVE_COUNT, 0));
 
             TextView textView = (TextView)findViewById(R.id.hello_text);
             textView.setText(sb.toString());
