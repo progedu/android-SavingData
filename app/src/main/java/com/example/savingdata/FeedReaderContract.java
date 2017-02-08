@@ -10,5 +10,6 @@ public final class FeedReaderContract {
         public static final String COLUMN_NAME_ENTRY_ID = "entryid";
         public static final String COLUMN_NAME_TITLE = "title";
         public static final String COLUMN_NAME_CONTENT = "content";
+        public static final String COLUMN_CREATED_DATE = "created_date";
     }
 }

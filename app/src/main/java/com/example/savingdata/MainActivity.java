@@ -19,6 +19,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -100,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
         values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_ENTRY_ID, lastId);
         values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_TITLE, "タイトル");
         values.put(FeedReaderContract.FeedEntry.COLUMN_NAME_CONTENT, "内容");
+        values.put(FeedReaderContract.FeedEntry.COLUMN_CREATED_DATE, lastId);
 
         // Insert the new row, returning the primary key value of the new row
         long newRowId = db.insert(
@@ -117,7 +119,8 @@ public class MainActivity extends AppCompatActivity {
                 new String[]{
                         FeedReaderContract.FeedEntry.COLUMN_NAME_ENTRY_ID,
                         FeedReaderContract.FeedEntry.COLUMN_NAME_TITLE,
-                        FeedReaderContract.FeedEntry.COLUMN_NAME_CONTENT
+                        FeedReaderContract.FeedEntry.COLUMN_NAME_CONTENT,
+                        FeedReaderContract.FeedEntry.COLUMN_CREATED_DATE
                 },
                 "",
                 new String[0],
@@ -128,7 +131,10 @@ public class MainActivity extends AppCompatActivity {
 
         List<String> records = new ArrayList<>();
         while(c.moveToNext()) {
-            String record = c.getString(0) + "," +  c.getString(1)  + "," +  c.getString(2) + "\r\n";
+            String record = c.getString(0) + "," +
+                    c.getString(1)  + "," +
+                    c.getString(2)  + "," +
+                    new Date(c.getLong(3) * 1000) + "\r\n";
             records.add(record);
         }
 
